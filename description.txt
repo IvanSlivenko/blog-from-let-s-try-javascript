@@ -1,0 +1,31 @@
+https://youtu.be/QxTeE5EMiWI
+
+npm init -y
+
+npm i express
+
+npm install mongoose
+
+npm i cors
+
+npm i bcuptjs
+
+npm i dotenv
+
+npm i nodemon -D
+
+
+mongoDB user
+
+umanproger@ukr.net
+iv07092006sl
+
+dataBase user
+umanproger
+3Mfa1yxwRCmfJOhK
+ 
+
+
+ npm run dev
+-----------------------------------------
+00 : 20 : 30
