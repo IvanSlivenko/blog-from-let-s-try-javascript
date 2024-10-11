@@ -73,8 +73,56 @@ db.movies.insertOne({
   --------------------------------------------------- додаємо  декілька документів в не існуючу коллекцію 
 
 db.movies.find()------------------------------------ отримати всі
+
+db["movies"].find({
+director:
+"Francis Ford Coppola"})---------------------------- отримати з відбором
+
+db["movies"].find({
+director:
+"Francis Ford Coppola"}, {title:1, director:1 })
+
+or
+
+
+db.movies.find({
+director:
+"Francis Ford Coppola"}, {title:1, director:1 })
+
+
+db["movies"].find({}, {title:1, director:1 }) -------------------------- відбираємо поля, які отримати
+
+
+db.movies.findOne({_id: ObjectId('67092aeb427e921d8b519fdc')},{title: 1, year:1})---- 
+-------------- пошук одного об'єкта за умовою та структурою
+
+db.movies.find({},{title:1}).count() ----------- узнаємо кількість об'єктів в колекції
+
+db.movies.find({},{title:1}).limit(10) --------------- задаємо кількість отриманих документів
+db.movies.find({},{title:1, rating:1}).sort({rating:1}) ----- відбір з сортуванням (за збільш)
+db.movies.find({},{title:1, rating:1}).sort({rating:-1}) ----- відбір з сортуванням (за зменш)
+
+db.movies.drop()---------delete colections
+
+db.movies.find({rating:{$gt:9}},{title:1, rating:1})------  {$gt:9} - більше діапазон відборів
+db.movies.find({rating:{$lt:5}},{title:1, rating:1})------  {$gt:9} -  менше діапазон відборів
+
+db.movies.find({rating:{$gte:9}},{title:1, rating:1})------  {$gt:9} - більше та дорівнює діапазон відборів
+db.movies.find({rating:{$lte:5}},{title:1, rating:1})------  {$gt:9} -  менше та дорівнює діапазон відборів
+
+db.movies.find({rating:{$eq:5}},{title:1, rating:1})------  {$gt:9} -  дорівнює відбору
+db.movies.find({rating:{$ne:5}},{title:1, rating:1})------  {$gt:9} -  не дорівнює відбору
+
+
+
+
+
+
+
+
+
 ----------------------------------------------------
-00 : 28 : 33
+00 : 44 : 41
 =================================================
 
 
