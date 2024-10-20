@@ -30,8 +30,22 @@ iv07092006sl
 dataBase user
 umanproger
 3Mfa1yxwRCmfJOhK
+
+
+client
+.................................................
+npx create-react-app
+
+npm run start
+
+
+
+https://tailwindcss.com/
+
+npm install -D tailwindcss
+npx tailwindcss init
 -------------------------------------------------
-01 : 05 : 12
+01 : 23 : 01
 
 
  npm run dev

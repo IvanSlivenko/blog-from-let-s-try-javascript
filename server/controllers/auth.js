@@ -37,7 +37,7 @@
          message: 'Помилка підчас створення користувача.'})
     }
  }
- 
+
  //Login user
  export const login = async (req, res) =>{
     try{
@@ -72,9 +72,25 @@
  //Get Me
  export const getMe = async (req, res) =>{
     try{
+      const user = await User.findById(req.userId)
+
+      if(!user){
+         return res.json({message: "Користувач з таким ім'ям відсутній" })
+      }
+
+      const token = jwt.sign({
+         id: user._id,
+      }, JWT_SECRET,
+         {expiresIn: '30d'}
+      )
+
+      res.json({
+         user, token
+      })
+
 
     }catch (error){
-
+      res.json({ message: 'Для вас контент недосяжний.' })
     }
  }
 
