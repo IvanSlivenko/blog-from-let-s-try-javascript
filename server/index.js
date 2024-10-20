@@ -4,29 +4,19 @@ import cors from 'cors'
 
 import authRoute from './routes/auth.js'
 
-// import dotenv from 'dotenv'
+import { 
+    PORT,
+    USER,
+    PASSWORD,
+    USER_2,
+    PASSWORD_2,
+    DB_NAME,
+    DB_NAME_2 
 
-// // Constans
-// const PORT = process.env.PORT;
-// const USER = process.env.DB_USER;
-// const PASSWORD =process.env.DB_PASSWORD;
-// const DB_NAME = process.env.DB_NAME;
+ } from './secret/secret.js'
 
-// dotenv.config();
-
-const PORT = 3002;
-const USER = 'adekvatofarvater';
-const PASSWORD = 'rAaeK7nd4DvcK0Eu';
-
-const USER_2 = 'Ivan';
-const PASSWORD_2 = 'Ivan123';
-
-
-const DB_NAME = 'moviebox';
 const URL = `mongodb+srv://${USER_2}:${PASSWORD_2}@cluster0.iqfcv.mongodb.net/${DB_NAME}?retryWrites=true&w=majority&appName=Cluster0`
 
-
-const DB_NAME_2 = 'blogOun';
 const URL_2= `mongodb+srv://${USER_2}:${PASSWORD_2}@cluster0.iqfcv.mongodb.net/${DB_NAME_2}?retryWrites=true&w=majority&appName=Cluster0`
 
 
