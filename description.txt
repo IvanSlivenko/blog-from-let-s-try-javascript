@@ -44,8 +44,12 @@ https://tailwindcss.com/
 
 npm install -D tailwindcss
 npx tailwindcss init
+
+
+npm install @reduxjs/toolkit
+npm install react-redux
 -------------------------------------------------
-01 : 40 : 37
+02 : 06 : 57
 
 
  npm run dev
