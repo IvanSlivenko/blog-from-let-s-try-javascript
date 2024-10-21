@@ -48,8 +48,10 @@ npx tailwindcss init
 
 npm install @reduxjs/toolkit
 npm install react-redux
+
+npm install react-toastify
 -------------------------------------------------
-02 : 06 : 57
+02 : 19 : 29
 
 
  npm run dev

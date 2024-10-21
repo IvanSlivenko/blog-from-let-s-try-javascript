@@ -35,18 +35,23 @@ export const authSlice = createSlice({
         // Запит відправляється
         [registerUser.pending]:(state)=>{
             state.isLoading=true
-            
+            state.status = null
         },
 
         // Запит виконано до кінця
         [registerUser.fulfilled]:(state, action)=>{
             state.isLoading = false
-            state.status = null
+            state.status = action.payload.message
+            state.user=action.payload.user
+            state.token = action.payload.token
+            
+
         },
 
         //Виникла помилка
         [registerUser.rejected]:(state, action)=>{
-            state.status = 
+            state.status = action.payload.message
+            state.isLoading = false
         },
     }
 }) 
