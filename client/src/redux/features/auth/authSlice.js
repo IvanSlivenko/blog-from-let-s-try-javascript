@@ -48,13 +48,33 @@ export const loginUser = createAsyncThunk(
 },
 )
 
+//Перевіряємо користувача
+export const getMe = createAsyncThunk(
+    'auth/me', 
+    async ()=>{
+        try{
+            const { data } = await axios.get('/auth/me')
+              
+            return data
+        } catch(error){
+            console.log(error);
+            
+        }
+},
+)
+
 
 
 export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-
+        logout: (state) => {
+            state.user= null
+            state.token= null
+            state.isLoading= false
+            state.status= null
+        }
     },
 
     extraReducers: (builder)=>{
@@ -102,10 +122,33 @@ export const authSlice = createSlice({
             .addCase(loginUser.rejected, (state, action)=>{
                 state.status = action.payload.message
                 state.isLoading = false
-            })                                         //Виникла помилка                                                    
+            })                                         //Виникла помилка   
+            
+            // Get Me ( audit authorization )
+            .addCase(getMe.pending, (state)=>{
+            state.isLoading=true
+            state.status = null
+
+            
+            })                                       // Запит відправляється
+        
+            .addCase(getMe.fulfilled, (state, action)=>{
+                state.isLoading = false
+                state.status = null
+                state.user=action.payload?.user
+                state.token = action.payload?.token 
+
+            })                                          // Запит виконано до кінця
+            
+            .addCase(getMe.rejected, (state, action)=>{
+                state.status = action.payload.message
+                state.isLoading = false
+            })                                         //Виникла помилка  
         
     }
 }) 
 
+export const checkIsAuth = (state) => Boolean(state.auth.token)
 
+export const { logout } = authSlice.actions
 export default authSlice.reducer

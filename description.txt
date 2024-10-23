@@ -51,7 +51,7 @@ npm install react-redux
 
 npm install react-toastify
 -------------------------------------------------
-02 : 27 : 53
+02 : 40 : 05
 
 
  npm run dev
