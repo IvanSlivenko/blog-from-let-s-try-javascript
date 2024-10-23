@@ -36,6 +36,7 @@
       await newUser.save()
          res.json({
             newUser,
+            token,
             message:' Було зареєстровано нового юзера'
          })
     }catch (error){

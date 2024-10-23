@@ -9,6 +9,7 @@ import { EditPostPage } from './pages/EditPostPage'
 import { LoginPage } from './pages/LoginPage'
 import { RegisterPage } from './pages/RegisterPage'
 import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -21,8 +22,9 @@ function App() {
         <Route path=':id/edit' element={<EditPostPage/>}/>
         <Route path='register' element={<RegisterPage/>}/>
         <Route path='login' element={<LoginPage/>}/>
+        <Route path="*" element={<MainPage />} /> {/* Для некоректних URL */}
       </Routes>
-      <ToastContainer position='bottom-right'/>
+      <ToastContainer position="bottom-right" />
     </Layout>
   )
 }

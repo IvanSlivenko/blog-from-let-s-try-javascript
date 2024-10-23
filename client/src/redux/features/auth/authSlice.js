@@ -6,8 +6,10 @@ const initialState = {
     token: null,
     isLoading: false,
     status: null,
+
 }
 
+//Руєструємо користувача
 export const registerUser = createAsyncThunk(
     'auth/registerUser', 
     async ({username, password})=>{
@@ -26,34 +28,84 @@ export const registerUser = createAsyncThunk(
         }
 },
 )
+//Підтверджуємо користувача
+export const loginUser = createAsyncThunk(
+    'auth/loginUser', 
+    async ({username, password})=>{
+        try{
+            const { data } = await axios.post('/auth/login',{
+                username, 
+                password,
+            })
+            if(data.token){
+                window.localStorage.setItem('token', data.token)
+            }   
+            return data
+        } catch(error){
+            console.log(error);
+            
+        }
+},
+)
+
+
 
 export const authSlice = createSlice({
     name: 'auth',
     initialState,
-    redusers: {},
-    extraReducers:{
-        // Запит відправляється
-        [registerUser.pending]:(state)=>{
+    reducers: {
+
+    },
+
+    extraReducers: (builder)=>{
+        builder
+
+            // registerUser
+            .addCase(registerUser.pending, (state)=>{
             state.isLoading=true
             state.status = null
-        },
 
-        // Запит виконано до кінця
-        [registerUser.fulfilled]:(state, action)=>{
-            state.isLoading = false
-            state.status = action.payload.message
-            state.user=action.payload.user
-            state.token = action.payload.token
+            
+            })                                       // Запит відправляється
+        
+            .addCase(registerUser.fulfilled, (state, action)=>{
+                state.isLoading = false
+                state.status = action.payload.message
+                state.user=action.payload.user
+                state.token = action.payload.token 
+
+            })                                          // Запит виконано до кінця
+            
+            .addCase(registerUser.rejected, (state, action)=>{
+                state.status = action.payload.message
+                state.isLoading = false
+            })                                         //Виникла помилка
             
 
-        },
+          //-------------------------------------------------------------
+           // loginUser
+            .addCase(loginUser.pending, (state)=>{
+            state.isLoading=true
+            state.status = null
 
-        //Виникла помилка
-        [registerUser.rejected]:(state, action)=>{
-            state.status = action.payload.message
-            state.isLoading = false
-        },
+            
+            })                                       // Запит відправляється
+        
+            .addCase(loginUser.fulfilled, (state, action)=>{
+                state.isLoading = false
+                state.status = action.payload.message
+                state.user=action.payload.user
+                state.token = action.payload.token 
+
+            })                                          // Запит виконано до кінця
+            
+            .addCase(loginUser.rejected, (state, action)=>{
+                state.status = action.payload.message
+                state.isLoading = false
+            })                                         //Виникла помилка                                                    
+        
     }
 }) 
+
 
 export default authSlice.reducer
