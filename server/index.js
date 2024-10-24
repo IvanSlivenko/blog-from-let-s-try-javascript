@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 
 import authRoute from './routes/auth.js'
+import postRoute from './routes/posts.js'
 
 import { 
     PORT,
@@ -29,11 +30,7 @@ app.use(express.json());
 //Routes
 //http://localhost:3002
 app.use('/api/auth', authRoute)
-
-
-// app.get('/', (req, res) =>{
-//     res.json({message: 'All is fine. '})
-// })
+app.use('/api/posts', postRoute)
 
 
 async function start() {
