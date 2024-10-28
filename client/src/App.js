@@ -9,7 +9,7 @@ import { EditPostPage } from './pages/EditPostPage'
 import { LoginPage } from './pages/LoginPage'
 import { RegisterPage } from './pages/RegisterPage'
 import { ToastContainer } from 'react-toastify'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch} from 'react-redux'
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react'
 import { getMe } from './redux/features/auth/authSlice'

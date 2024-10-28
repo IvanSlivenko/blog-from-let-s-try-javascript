@@ -2,7 +2,8 @@
 //////////////////////////////////////////////////////////////// 1
 https://youtu.be/QxTeE5EMiWI
 
-
+server
+.......................................................
 npm init -y
 
 npm i express
@@ -31,6 +32,8 @@ dataBase user
 umanproger
 3Mfa1yxwRCmfJOhK
 
+npm i express-fileupload
+
 
 client
 .................................................
@@ -50,8 +53,10 @@ npm install @reduxjs/toolkit
 npm install react-redux
 
 npm install react-toastify
+
+npm install react-icons --save
 -------------------------------------------------
-03 : 05 : 52
+03 : 51 : 25
 
 
  npm run dev

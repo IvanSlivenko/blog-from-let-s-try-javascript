@@ -1,3 +1,4 @@
+import { trace } from "console";
 import Post  from "../models/Post.js";
 import User from "../models/User.js";
 import path, { dirname } from 'path'
@@ -6,46 +7,62 @@ import { fileURLToPath } from "url";
 //Create Post
 export const createPost = async (req, res) =>{
     try {
-        const {title, text } = req.body
+        const { title, text } = req.body
         const user = await User.findById(req.userId)
 
-        if(req.files){
-           let fileName = Date.now().toString()+req.files.image.name
-           const __dirname = dirname(fileURLToPath(import.meta.url))
-           req.files.image.mv(path.join(__dirname, '..', 'uploads', fileName))
+        if (req.files) {
+            let fileName = Date.now().toString() + req.files.image.name
+            const __dirname = dirname(fileURLToPath(import.meta.url))
+            req.files.image.mv(path.join(__dirname, '..', 'uploads', fileName))
 
-           const newPostWithImage = new Post({
-            username: user.username,
-            title,
-            text,
-            imgUrl: fileName,
-            author: req.userId
-           })
+            const newPostWithImage = new Post({
+                username: user.username,
+                title,
+                text,
+                imgUrl: fileName,
+                author: req.userId,
+            })
 
-           await newPostWithImage.save()
-           await User.findOneAndUpdate(req.userId,{
-            $push: {posts: newPostWithImage}
-           }) 
+            await newPostWithImage.save()
+            await User.findByIdAndUpdate(req.userId, {
+                $push: { posts: newPostWithImage },
+            })
 
-           return res.join(newPostWithImage)
+            return res.json(newPostWithImage)
         }
 
-        const newPostWithOutImage = new Post({
+        const newPostWithoutImage = new Post({
             username: user.username,
             title,
             text,
-            imgUrl:'',
+            imgUrl: '',
             author: req.userId,
         })
-        await newPostWithOutImage.save()
-        await User.findOneAndUpdate(req.userId,{
-            $push: {posts: newPostWithOutImage}
-           })
-           
-           return res.join(newPostWithOutImage)   
+        await newPostWithoutImage.save()
+        await User.findByIdAndUpdate(req.userId, {
+            $push: { posts: newPostWithoutImage },
+        })
+        res.json(newPostWithoutImage)  
 
     } catch (error) {
         res.json({ message: 'Публікацію не створено ....' })
         
+    }
+}
+
+// Get All Posts
+export const getAll = async (req, res) =>{
+    try {
+
+        const posts = await Post.find().sort('-createdAt');
+        const popularPosts = await Post.find().limit(5).sort('-views')
+
+        if(!posts) {
+            return res.json({ message: 'Публікації відсутні' })
+        }
+        res.json({ posts, popularPosts })
+
+    } catch (error) {
+        res.json({ message: 'Помилка  під час отримання всіх пуюлікацій'})
     }
 }
