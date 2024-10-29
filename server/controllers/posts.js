@@ -63,6 +63,49 @@ export const getAll = async (req, res) =>{
         res.json({ posts, popularPosts })
 
     } catch (error) {
-        res.json({ message: 'Помилка  під час отримання всіх пуюлікацій'})
+        res.json({ message: 'Помилка  під час отримання всіх публікацій'})
+    }
+}
+
+// get posts By Id
+export const getById = async (req, res) => {
+    try {
+        const post = await Post.findByIdAndUpdate(req.params.id, {
+            $inc: { views: 1 },
+        })
+        res.json(post)
+    } catch (error) {
+        res.json({ message: 'Помилка  під час отримання публікації за id' })
+    }
+}
+
+// Get My Posts
+export const getMyPosts = async (req, res) =>{
+    
+        try {
+            const user = await User.findById(req.userId)
+            const list = await Promise.all(
+                user.posts.map(post=> {
+                    return Post.findById(post._id)
+                })
+            )
+            res.json(list)
+        } catch (error) {
+            res.json({ message: 'Помилка  під час отримання публікації за user' })
+        }
+
+    
+}
+
+// Remove post
+export const removePost = async (req, res) => {
+    try {
+        const post = await Post.findByIdAndDelete(req.params.id)
+        if(!post){
+            return res.json({message: 'Така публікація не існує'})
+        }
+    } catch (error) {
+        res.json({ message: 'Помилка  під час видалення публікації за user' })
+        
     }
 }

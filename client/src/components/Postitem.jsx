@@ -1,5 +1,7 @@
 import React from 'react'
 import {AiFillEye, AiOutlineMessage} from 'react-icons/ai'
+import Moment from 'react-moment'
+import { Link } from 'react-router-dom'
 
 const PostItem = ({ post }) => {
   if(!post){
@@ -9,24 +11,36 @@ const PostItem = ({ post }) => {
         text-white 
         py-10
       '>
-        Пости відсутні
+        Завантаження...
       </div>
   }
   return (
-    <div className='
+    <Link to={`/${post._id}`}>
+      <div className='
        flex
        flex-col
        basic-1/4
        flex-grow
       '
     >
-      <div>IMAGE</div>
+      <div className={
+        post.imgUrl ? 
+          'flex rounded-sm h-80' : 'flex rounded-sm'
+      }>
+        {post.imgUrl && (
+          <img src={`http://localhost:3002/${post.imgUrl}`} alt="img" className='
+          object-cover
+          w-full
+          
+          ' />
+        )}
+      </div>
 
       <div className="flex 
-      justify-between 
-      items-center
-      pt-2
-      ">
+        justify-between 
+        items-center
+        pt-2
+        ">
         <div className='
         text-xs
         text-white 
@@ -40,7 +54,7 @@ const PostItem = ({ post }) => {
         text-white 
         opacity-50
         '>  
-          {post.createdAt}
+        <Moment date={post.createdAt} format='D MMM YYYY'/>
         </div>
       </div>
       
@@ -77,10 +91,11 @@ const PostItem = ({ post }) => {
             text-white
             opacity-50
           '>
-            <AiOutlineMessage/> <span>{post.comments?.length}</span>
+            <AiOutlineMessage/> <span>{post.comments?.length || 0}</span>
           </button>
       </div>
     </div>
+    </Link>
   )
 }
 

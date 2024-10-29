@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react'
+
+
 import PostItem from '../components/Postitem'
 import { PopularPosts } from '../components/PopularPosts'
 import { useDispatch, useSelector } from 'react-redux'
@@ -11,7 +13,7 @@ export const MainPage = () => {
 
   useEffect(()=>{
     dispatch(getAllPosts())
-  },[dispatch])
+  },[])
 
   if(!posts.length){
     return (
@@ -26,11 +28,6 @@ export const MainPage = () => {
     )
   }
   
-
-
-
-
-
   return (
     <div
       className='
@@ -42,9 +39,7 @@ export const MainPage = () => {
             posts?.map((post, idx)=>(
             <PostItem key={idx} post={post}/>))
           }
-              
-              {/* <Postitem/> */}
-            
+                       
           </div>
         
           <div className="basis 1/5">
