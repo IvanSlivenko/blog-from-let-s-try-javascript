@@ -52,6 +52,19 @@ export const removePost = createAsyncThunk(
     }
 )
 
+export const updatePost = createAsyncThunk(
+    'post/updatePost',
+    async(updatePost) => {
+        try {
+           const { data } = await axios.put(`/posts/${updatePost.id}`,updatePost) 
+           return data
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+)
+
 export const postSlice = createSlice({
     name: 'post',
     initialState,
@@ -101,6 +114,20 @@ export const postSlice = createSlice({
                 }
             })
             .addCase(removePost.rejected, (state, action) => {
+                state.loading = false;
+                
+            })
+
+            // Редагування публікації
+            .addCase(updatePost.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(updatePost.fulfilled, (state, action) => {
+                state.loading = false;
+                const index = state.posts.findIndex((post)=> post._id === action.payload.id)
+                state.posts[index] = action.payload
+            })
+            .addCase(updatePost.rejected, (state, action) => {
                 state.loading = false;
                 
             });
