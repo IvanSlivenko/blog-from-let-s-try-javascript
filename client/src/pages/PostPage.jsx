@@ -1,25 +1,44 @@
 import React, { useCallback, useState, useEffect } from 'react'
-import {AiFillEye, AiOutlineMessage} from 'react-icons/ai'
+import {AiFillEye, AiOutlineMessage, AiTwotoneEdit, AiFillDelete } from 'react-icons/ai'
+import { toast } from 'react-toastify'
 import Moment from 'react-moment'
+import { useDispatch, useSelector } from 'react-redux'
 
 import axios from '../utils/axios'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+
+import {removePost } from '../redux/features/post/postSlice'
 
 export const PostPage = () => {
 
   const [post, setPost] = useState(null)
-  const params = useParams()
 
-  
+  const { user } = useSelector(state => state.auth)
+  const navigate = useNavigate()
+  const params = useParams()
+  const dispath = useDispatch()
+
+  const removePostHendler = () =>{
+    try {
+      dispath(removePost(params.id))
+      toast('Публікація була видалена')
+      navigate('/posts')
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
 
   const fetchPost = useCallback(async () => {
     const { data } = await axios.get(`/posts/${params.id}`)
     setPost(data)
-}, [params.id])
+  }, [params.id])
 
   useEffect(() => {
       fetchPost()
   }, [fetchPost])
+
+  
 
   if(!post){
     return <div className='
@@ -104,31 +123,65 @@ export const PostPage = () => {
                   flex
                   gap-3
                   items-center
-                  mt-2   
+                  mt-2
+                  justify-between   
                     ">
-                    <button className='
-                      flex 
-                      items-center
-                      justify-center
-                      gap-2
-                      text-xs
-                      text-white
-                      opacity-50
-                    '>
-                      <AiFillEye/><span>{post.views}</span>
-                    </button>
+                    <div className='flex gap-3 mt-4'>
+                        <button className='
+                          flex 
+                          items-center
+                          justify-center
+                          gap-2
+                          text-xs
+                          text-white
+                          opacity-50
+                        '>
+                          <AiFillEye/><span>{post.views}</span>
+                        </button>
 
-                    <button className='
-                      flex 
-                      items-center
-                      justify-center
-                      gap-2
-                      text-xs
-                      text-white
-                      opacity-50
-                    '>
-                      <AiOutlineMessage/> <span>{post.comments?.length || 0}</span>
-                    </button>
+                        <button className='
+                          flex 
+                          items-center
+                          justify-center
+                          gap-2
+                          text-xs
+                          text-white
+                          opacity-50
+                        '>
+                          <AiOutlineMessage/> <span>{post.comments?.length || 0}</span>
+                        </button>
+                    </div>
+
+                    {
+                      user?._id === post.author && (
+                        <div className='flex gap-3 mt-4'>
+                        <button className='
+                          flex 
+                          items-center
+                          justify-center
+                          gap-2
+                          text-white
+                          opacity-50
+                        '>
+                          <AiTwotoneEdit/>
+                        </button>
+
+                        <button 
+                          onClick={removePostHendler}
+                          className='
+                          flex 
+                          items-center
+                          justify-center
+                          gap-2
+                          text-white
+                          opacity-50
+                        '>
+                          <AiFillDelete/>
+                        </button>
+                    </div>
+                      )
+                    }
+                    
                 </div>
             </div>
 

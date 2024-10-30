@@ -104,8 +104,43 @@ export const removePost = async (req, res) => {
         if(!post){
             return res.json({message: 'Така публікація не існує'})
         }
+
+        await User.findByIdAndUpdate(req.userId,{
+            $pull: { posts: req.params.id}
+        })
+
+        res.json({ message: 'Публікація була видалена.'})
     } catch (error) {
         res.json({ message: 'Помилка  під час видалення публікації за user' })
         
     }
+}
+
+// Update Post
+export const updatePost = async (req, res) =>{
+    
+    try {
+        const { title, text, id } = req.body
+        const post = await Post.findById(id)
+
+        if (req.files) {
+            let fileName = Date.now().toString() + req.files.image.name
+            const __dirname = dirname(fileURLToPath(import.meta.url))
+            req.files.image.mv(path.join(__dirname, '..', 'uploads', fileName))
+            post.imgUrl = fileName || ''
+        }
+
+        post.title = title
+        post.text = text
+
+        await post.save()
+
+        res.json(post)
+
+
+    } catch (error) {
+        res.json({ message: 'Помилка  під час отримання публікації за user' })
+    }
+
+
 }
