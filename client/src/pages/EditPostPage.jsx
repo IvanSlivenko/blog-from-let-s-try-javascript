@@ -86,7 +86,7 @@ export const EditPostPage = () => {
           onClick={submitHandler}
           className="flex items-center bg-gray-600 text-xs text-white rounded-sm py-2 px-4"
         >
-          Додати пост
+          Оновити
         </button>
 
         <button
@@ -94,7 +94,7 @@ export const EditPostPage = () => {
           onClick={clearFormHandler}
           className="flex items-center bg-red-500 text-xs text-white rounded-sm py-2 px-4"
         >
-          Скасувати пост
+          Скасувати зміни
         </button>
       </div>
     </form>

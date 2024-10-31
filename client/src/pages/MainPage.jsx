@@ -13,7 +13,7 @@ export const MainPage = () => {
 
   useEffect(()=>{
     dispatch(getAllPosts())
-  },[])
+  },[getAllPosts])
 
   if(!posts.length){
     return (

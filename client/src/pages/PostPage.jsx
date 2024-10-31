@@ -8,10 +8,12 @@ import axios from '../utils/axios'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import {removePost } from '../redux/features/post/postSlice'
+import { createComment } from '../redux/features/comment/commentSlice'
 
 export const PostPage = () => {
 
   const [post, setPost] = useState(null)
+  const [comment, setComment] = useState('')
 
   const { user } = useSelector(state => state.auth)
   const navigate = useNavigate()
@@ -25,6 +27,18 @@ export const PostPage = () => {
       navigate('/posts')
     } catch (error) {
       console.log(error);
+      
+    }
+  }
+
+  const handleSubmit = () =>{
+    try {
+      const postId  = params.id
+      dispath(createComment({ postId, comment }))
+      setComment('')
+    } catch (error) {
+      console.log(error);
+      
       
     }
   }
@@ -50,6 +64,9 @@ export const PostPage = () => {
         Завантаження...
       </div>
   }
+
+
+  
 
   return (
     <div>
@@ -163,7 +180,10 @@ export const PostPage = () => {
                           text-white
                           opacity-50
                         '>
-                          <AiTwotoneEdit/>
+                          <Link to={`/${params.id}/edit`}>
+                            <AiTwotoneEdit/>
+                          </Link>
+                          
                         </button>
 
                         <button 
@@ -185,8 +205,50 @@ export const PostPage = () => {
                 </div>
             </div>
 
-            <div className="w-1/3">
-              COMMENTS
+            <div className="w-1/3 p-8 bg-gray-700 flex flex-col gap-2 rounded-sm">
+              <form 
+                onSubmit={e => e.preventDefault()}
+                className='
+                flex
+                gap-2
+                '
+                >
+                    <input 
+                      type="text" 
+                      placeholder='Коментар'
+                      className='
+                        text-black
+                        w-full
+                        rounded-sm
+                        bg-gray-400
+                        border
+                        p-2
+                        text-xs
+                        outline-none
+                        placeholder:text-gray-700
+                        '
+                      value={comment}
+                      onChange={e => setComment(e.target.value)}
+
+                    />
+                    <button
+                        type='submit'
+                        className='
+                            flex
+                            justify-center
+                            items-center
+                            bg-gray-600
+                            text-xs
+                            text-white
+                            rounded-sm
+                            py-2
+                            px-4
+                            '
+                        onClick={handleSubmit}    
+                      >
+                        Відправити
+                    </button>
+              </form>
             </div>
         </div>
     </div>

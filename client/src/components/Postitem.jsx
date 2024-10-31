@@ -60,7 +60,7 @@ const PostItem = ({ post }) => {
       
       <div className="text-white text-xl">{post.title}</div>
       
-      <p className='text-white opacity-60 text-xs pt-4'>
+      <p className='text-white opacity-60 text-xs pt-4 line-clamp-4'>
         {post.text}
       </p>
       

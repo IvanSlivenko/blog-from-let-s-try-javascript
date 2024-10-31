@@ -57,8 +57,10 @@ npm install react-toastify
 npm install react-icons --save
 
 npm i react-moment
+
+npm i @tailwindcss/line-clamp
 -------------------------------------------------
-05 : 00 : 12
+05 : 28 : 25
 
 
  npm run dev
