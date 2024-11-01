@@ -6,21 +6,11 @@ import path, { dirname } from 'path'
 import { fileURLToPath } from "url";
 
 //Create Comment
-export const createComment = async (req, res) => {
+export const createCommentControl = async (req, res) => {
     try {
     
         
         const { postId, comment } = req.body
-
-        console.log('------------------------------------------------');
-        console.log('postId', postId);
-        console.log('comment', comment);
-        
-      
-        
-        
-        
-        
 
         if(!comment){
             return res.json({ message: 'Коментар не може бути пустим '})
@@ -31,7 +21,7 @@ export const createComment = async (req, res) => {
 
         try {
             await Post.findByIdAndUpdate(postId, {
-                $push: { comments: newComment.postId },
+                $push: { comments: newComment._id },
             })
 
         } catch (error) {

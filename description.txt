@@ -60,7 +60,7 @@ npm i react-moment
 
 npm i @tailwindcss/line-clamp
 -------------------------------------------------
-05 : 28 : 25
+05 : 40 : 52
 
 
  npm run dev

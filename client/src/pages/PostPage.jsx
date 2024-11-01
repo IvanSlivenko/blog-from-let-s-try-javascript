@@ -8,7 +8,13 @@ import axios from '../utils/axios'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import {removePost } from '../redux/features/post/postSlice'
-import { createComment } from '../redux/features/comment/commentSlice'
+import { 
+  createComment,
+  getPostComments
+
+ } from '../redux/features/comment/commentSlice'
+
+ import { CommentItem } from '../components/CommentItem'
 
 export const PostPage = () => {
 
@@ -16,6 +22,7 @@ export const PostPage = () => {
   const [comment, setComment] = useState('')
 
   const { user } = useSelector(state => state.auth)
+  const { comments } = useSelector(state => state.comment)
   const navigate = useNavigate()
   const params = useParams()
   const dispath = useDispatch()
@@ -34,6 +41,7 @@ export const PostPage = () => {
   const handleSubmit = () =>{
     try {
       const postId  = params.id
+
       dispath(createComment({ postId, comment }))
       setComment('')
     } catch (error) {
@@ -43,6 +51,15 @@ export const PostPage = () => {
     }
   }
 
+  const fetchComments = useCallback(async () =>{
+    try {
+      dispath(getPostComments(params.id))
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }, [params.id, dispath])
+
   const fetchPost = useCallback(async () => {
     const { data } = await axios.get(`/posts/${params.id}`)
     setPost(data)
@@ -51,6 +68,10 @@ export const PostPage = () => {
   useEffect(() => {
       fetchPost()
   }, [fetchPost])
+
+  useEffect(() => {
+    fetchComments()
+}, [fetchComments])
 
   
 
@@ -249,6 +270,13 @@ export const PostPage = () => {
                         Відправити
                     </button>
               </form>
+
+                    {
+                      comments?.map((comment)=>(
+                        <CommentItem key={comment._id} comment={comment}/>
+                      ))
+                    }
+
             </div>
         </div>
     </div>
