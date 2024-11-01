@@ -1,6 +1,7 @@
 import React from 'react'
 
 export const CommentItem = ({ comment }) => {
+  const avatar = comment.comment.trim().toUpperCase().split('').slice(0, 2)
   return (
     <div
       className='
@@ -22,7 +23,7 @@ export const CommentItem = ({ comment }) => {
             text-sm
             "
         >
-              AVATAR
+              { avatar }
       </div>
       <div className="flex text-gray-300 text-[10px]">{comment.comment}</div>
     </div>
